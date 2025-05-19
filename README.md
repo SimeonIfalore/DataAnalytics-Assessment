@@ -34,7 +34,7 @@ This query aims to identify high-value customers who hold both savings and inves
     * `CONCAT(first_name, ' ', last_name) AS name`: Concatenates the first and last names from the `users_customuser` table to get the customer's full name.
     * `COUNT(DISTINCT s.id) AS savings_count`: Counts the number of distinct savings accounts for each user. The comment correctly notes that this counts all savings accounts (that have a `confirmed_amount` greater than 0 due to the `LEFT JOIN` condition).
     * `COUNT(DISTINCT p.id) AS investment_count`: Counts the number of distinct investment plans for each user. The comment correctly points out that this leverages the `p.is_a_fund = 1` condition in the `LEFT JOIN` to only count investment plans.
-    * `SUM(s.confirmed_amount) / 100 AS total_deposits`: Calculates the total amount deposited across all the user's funded savings accounts. The division by 100 correctly converts the amount from kobo to Naira (assuming the amounts are in kobo).
+    * `SUM(s.confirmed_amount) / 100 AS total_deposits`: Calculates the total amount deposited across all the user's funded savings accounts. The division by 100 correctly converts the amount from kobo to Naira.
 
 2.  **`FROM` and `LEFT JOIN` Clauses:**
     * `FROM users_customuser u`: Starts with the `users_customuser` table, aliased as `u`.
@@ -176,7 +176,6 @@ This query attempts to find savings and investment accounts with no activity for
     * Groups the results by `id` and `owner_id`.
     * `HAVING inactivity_days > 365`: Filters for investment plans where the creation date was more than 365 days ago.
 
-**As we discussed previously, this query has limitations in fully addressing the "no inflow transactions" requirement.** It flags accounts with *any* type of inactivity, not specifically the absence of inflows. To accurately solve the original problem, you would need to query transaction history tables (if they exist) and filter specifically for inflow transactions.
 
 ## Question 4: `Assessment_Q4.sql` - Customer Lifetime Value (CLV) Estimation
 
